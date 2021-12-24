@@ -1,0 +1,50 @@
+button {
+    width: 60px;
+    height: 50px;
+    font-size: 16px;
+    background-color: rgb(212, 212, 212);
+    border-radius: 6px;
+    border-color: white;
+}
+
+.soma,
+#clear,
+#igual {
+    width: 130px;
+    height: 50px;
+}
+
+div#caixa-texto {
+    width: 262px;
+    height: 60px;
+    border: solid 4px;
+    font-size: 28px;
+    padding: 6px;
+    background-color: rgb(169, 184, 171);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border-radius: 10px;
+    margin: 8px auto 18px auto;
+}
+
+#display {
+    text-align: end;
+}
+
+#botoes {
+    display: flex;
+    width: 300px;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+#container {
+    border: solid black;
+    width: 300px;
+    height: 410px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgb(27, 27, 27);
+    margin: 100px auto;
+    
+}
