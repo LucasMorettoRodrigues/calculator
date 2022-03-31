@@ -1,7 +1,6 @@
-let operandon1 = ''
-let operandon2 = ''
+let operandosList = []
 let numeroAtual = ''
-let operadorAtual = null
+let operadoresList = []
 let sujo = null
 
 const numbers = document.querySelectorAll('#number')
@@ -12,10 +11,10 @@ const display = document.querySelector('#display')
 const memoria = document.querySelector('#memoria')
 const limpar = document.querySelector('#clear')
 
-numbers.forEach(number => 
+numbers.forEach(number =>
     number.addEventListener('click', () => pressNumber(number.value)))
 
-operadores.forEach(operador => 
+operadores.forEach(operador =>
     operador.addEventListener('click', () => setOperador(operador.value)))
 
 igual.addEventListener('click', getResultado)
@@ -44,14 +43,41 @@ function dividir(a, b) {
     return a / b
 }
 
-function operar(operador, a, b){
+function calcular(operadoresList, operandosList) {
+    if (operadoresList.length !== operandosList.length - 1) return 'Math ERROR'
+    console.log(operadoresList, operandosList);
+
+    for (let i = 0; i < operadoresList.length; i++) {
+        if (operadoresList[i] === '*' || operadoresList[i] === '/') {
+            let resultado = operar(operadoresList[i], operandosList[i], operandosList[i + 1])
+            operandosList[i] = resultado
+            operandosList.splice(i + 1, 1)
+            operadoresList.splice(i, 1)
+            calcular(operadoresList, operandosList)
+        }
+    }
+
+    for (let i = 0; i <= operadoresList.length; i++) {
+        if (operadoresList[i] === '+' || operadoresList[i] === '-') {
+            let resultado = operar(operadoresList[i], operandosList[i], operandosList[i + 1])
+            operandosList[i] = resultado
+            operandosList.splice(i + 1, 1)
+            operadoresList.splice(i, 1)
+            calcular(operadoresList, operandosList)
+        }
+    }
+
+    return operandosList[0]
+}
+
+function operar(operador, a, b) {
     a = Number(a)
     b = Number(b)
     switch (operador) {
         case '+':
             return somar(a, b)
         case '-':
-            return subtrair(a,b)
+            return subtrair(a, b)
         case '*':
             return multiplicar(a, b)
         case '/':
@@ -68,19 +94,20 @@ function setOperador(operador) {
         numeroAtual = display.textContent
         memoria.textContent += 'Ans'
     }
-    operandon1 = numeroAtual
+    operandosList.push(numeroAtual)
     numeroAtual = ''
     ponto.disabled = false
-    operadorAtual = operador
+    operadoresList.push(operador)
     memoria.textContent += ` ${operador} `
 }
 
 function getResultado() {
-    operandon2 = numeroAtual
+    operandosList.push(numeroAtual)
     numeroAtual = ''
-    let resultado = operar(operadorAtual, operandon1, operandon2)
+    let resultado = calcular(operadoresList, operandosList)
     display.textContent = resultado
     sujo = 1
+    operandosList = []
 }
 
 function reset() {
@@ -91,9 +118,9 @@ function reset() {
 }
 
 function clear() {
-    operandon1 = '' 
-    operandon2 = ''
-    numeroAtual = ''    
+    operadoresList = []
+    operandosList = []
+    numeroAtual = ''
     memoria.textContent = ''
     display.textContent = ''
 }
